@@ -90,7 +90,7 @@ public class RecommendationService {
 
     public List<Map<String, Object>> history(User user) {
         return recs.findByRequirementUserOrderByCreatedAtDesc(user).stream()
-                .map(x -> {
+                .<Map<String, Object>>map(x -> {
                     Map<String, Object> detail = new LinkedHashMap<>();
                     detail.put("id", x.getId());
                     detail.put("technology", x.getTechnology());

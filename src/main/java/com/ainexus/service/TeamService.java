@@ -79,7 +79,7 @@ public class TeamService {
 
     public List<Map<String, Object>> invitations(User user) {
         return invitations.findByInviteeAndStatus(user, "PENDING").stream()
-                .map(i -> {
+                .<Map<String, Object>>map(i -> {
                     Map<String, Object> detail = new LinkedHashMap<>();
                     detail.put("id", i.getId());
                     detail.put("team", i.getTeam().getName());
@@ -114,7 +114,7 @@ public class TeamService {
 
     private Map<String, Object> detail(Team team) {
         List<Map<String, Object>> memberDetails = members.findByTeam(team).stream()
-                .map(m -> {
+                .<Map<String, Object>>map(m -> {
                     Map<String, Object> detail = new LinkedHashMap<>();
                     detail.put("id", m.getUser().getId());
                     detail.put("name", m.getUser().getName());

@@ -1,0 +1,18 @@
+AI NEXUS — WINDOWS / VS CODE START
+
+1. Extract this ZIP to a normal folder, e.g. C:\\Users\\aarif\\Desktop\\AI-Nexus-FINAL-VERIFIED.
+2. Open VS Code > File > Open Folder > select that extracted folder (the folder containing pom.xml).
+3. Ensure Java 21 and Maven are installed. Open a NEW VS Code terminal in the project root.
+4. Run: mvn clean test
+5. Only if tests finish with BUILD SUCCESS, run: mvn spring-boot:run
+6. Open http://localhost:8080
+7. Check health endpoint: http://localhost:8080/api/health
+
+If port 8080 is already occupied, stop the older app process before starting another copy.
+The app uses an H2 file database by default. Keep the data folder if you want to preserve local data.
+Do not commit real API keys, passwords, tokens, or local database files.
+
+VERIFICATION NOTE
+- Static JavaScript syntax was checked with `node --check` when packaging this archive.
+- Authentication transaction annotations and eager AuthToken.user loading are included to address the previously observed login transaction and /api/auth/me lazy-loading errors.
+- Run `mvn clean test` on your Windows setup before treating this archive as verified. Maven is not installed in the packaging environment, so a fresh Maven build could not be executed here. No claim is made that every UI action or integration has been end-to-end tested.

@@ -124,8 +124,8 @@ const App = {
     const [team, project, history] = await Promise.all([
       API.call('/api/teams/me'), API.call('/api/projects/me'), API.call('/api/recommendations/history')
     ]);
-    this.team = team;
-    this.project = project;
+    this.currentTeam = team;
+    this.currentProject = project;
     const status = project.exists ? project.status.replaceAll('_', ' ') : 'NOT STARTED';
 
     $('page').innerHTML = `
@@ -154,7 +154,7 @@ const App = {
     const [team, invitations] = await Promise.all([
       API.call('/api/teams/me'), API.call('/api/teams/invitations')
     ]);
-    this.team = team;
+    this.currentTeam = team;
 
     $('page').innerHTML = `
       <div class="page-grid">
@@ -212,9 +212,9 @@ const App = {
 
   async project() {
     const team = await API.call('/api/teams/me');
-    this.team = team;
+    this.currentTeam = team;
     let project = await API.call('/api/projects/me');
-    this.project = project;
+    this.currentProject = project;
 
     const canCreate = !project.exists && team.hasTeam && team.members.length >= 3 && team.members.length <= 4;
     const can0 = project.exists && project.status === 'REVIEW_0_PENDING';

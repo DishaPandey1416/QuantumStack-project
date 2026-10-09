@@ -1,99 +1,26 @@
-# AI Nexus — Intelligent Computing & Java Project Platform
+# AI Nexus — Java Project
 
-AI Nexus is a full-stack Spring Boot web application for a Java project-based evaluation. It combines three educational computing labs with an academic project workflow:
-
-- **AI Recommendation Engine** — explainable scoring across AI, Quantum and Network approaches.
-- **Quantum Lab** — educational 1–8 qubit state-vector simulation with H/X gates.
-- **Network Lab** — topology/performance simulation for Star, Ring, Mesh, Tree and Bus.
-- **Team Workspace** — 3–4 member team formation, invitations and roles.
-- **Review Workflow** — Review 0 approval gate, Review 1 (33 marks) and Review 2 (17 marks).
-- **Faculty/Admin Dashboard** — protected review approvals and feedback.
-- **History** — saved recommendation and simulation activity.
-
-## Architecture
-
-This is intentionally a **single Spring Boot application** rather than separate React and backend repositories:
-
-```text
-src/main/java/                 Backend: controllers, services, JPA models
-src/main/resources/static/     Frontend: HTML, CSS, JavaScript
-src/main/resources/            H2 default + MySQL profile configuration
-docs/                           Architecture, API, flows, roadmap, checklist
-```
-
-The frontend is served by Spring Boot, so there is no separate Node/Vite build step.
+Spring Boot application with a static HTML/CSS/JavaScript frontend. Backend packages are under `src/main/java/com/ainexus`; frontend assets are served from `src/main/resources/static`.
 
 ## Requirements
-
-- Java 17+ (Java 21 recommended)
+- JDK 21 (project targets Java 17 bytecode)
 - Maven 3.9+
 
-## Run locally (zero-setup H2)
+## Run in VS Code / Windows
+1. Extract the ZIP and open the extracted folder containing `pom.xml` in VS Code.
+2. In the VS Code terminal, run `mvn clean test`.
+3. If the build reports `BUILD SUCCESS`, run `mvn spring-boot:run`.
+4. Visit `http://localhost:8080` and verify `http://localhost:8080/api/health`.
 
-From the directory containing `pom.xml`:
+VS Code tasks are included in `.vscode/tasks.json` (`AI Nexus: Maven Tests` and `AI Nexus: Run Spring Boot`). Additional Windows notes are in `OPEN-IN-VSCODE-WINDOWS.txt`.
 
-```powershell
-mvn clean test
-mvn spring-boot:run
-```
+## Default database
+The default configuration uses a local H2 file database. Do not delete the `data` folder if you need to keep its data. MySQL configuration is available separately in `src/main/resources/application-mysql.properties`.
 
-Open:
+## Before submission
+- Run `mvn clean test` and keep the terminal output.
+- Manually test registration, login, `/api/auth/me`, logout, team invitations, project/review workflows, recommendation, simulation, and history screens.
+- Never include real secrets, tokens, or personal credentials in Git or the submission ZIP.
 
-```text
-http://localhost:8080/
-```
-
-The default database is a local H2 file under `./data/ainexus`, so MySQL is not required for the normal demo.
-
-## Demo accounts
-
-When `DEMO_DATA=true` (the default local setting):
-
-| Role | Email | Password |
-|---|---|---|
-| Admin | admin@ainexus.local | Admin@123 |
-| Faculty | faculty@ainexus.local | Faculty@123 |
-
-For a real deployment, set `DEMO_DATA=false` and use strong credentials managed outside source control.
-
-## MySQL / Docker
-
-A MySQL profile and Docker Compose setup are included. MySQL URLs already include `allowPublicKeyRetrieval=true` to avoid the common MySQL 8 authentication error seen with local development setups.
-
-```powershell
-mvn spring-boot:run -Dspring-boot.run.profiles=mysql
-```
-
-Or:
-
-```powershell
-docker compose up --build
-```
-
-## Important project workflow
-
-```text
-Register / Login
-      ↓
-Create team
-      ↓
-Invite students
-      ↓
-3–4 members required
-      ↓
-Create project
-      ↓
-Review 0 → Faculty approval
-      ↓
-Review 1 → Faculty approval (33)
-      ↓
-Review 2 → Faculty approval (17)
-      ↓
-Completed
-```
-
-## Verification note
-
-The source package includes automated tests and has been statically reviewed for the final build. A Maven runtime cannot be executed in every packaging environment, so the authoritative final verification is `mvn clean test` and a local browser/API smoke test on the target machine.
-
-See `docs/VERIFICATION.md` for the complete checklist.
+## Verification status
+The packaging pass checked the frontend JavaScript syntax and includes fixes for two previously observed authentication errors (transaction handling and lazy user loading). A fresh Maven build and full browser/API end-to-end pass could not be run in the packaging environment because Maven is unavailable there. Verify locally before claiming all features are fully working.

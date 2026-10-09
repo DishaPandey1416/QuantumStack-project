@@ -5,9 +5,9 @@ import com.ainexus.model.User;
 import com.ainexus.repository.SimulationRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedHashMap;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -157,7 +157,7 @@ public class SimulationService {
 
     public List<Map<String, Object>> history(User user) {
         return simulations.findByUserOrderByCreatedAtDesc(user).stream()
-                .map(s -> {
+                .<Map<String, Object>>map(s -> {
                     Map<String, Object> detail = new LinkedHashMap<>();
                     detail.put("id", s.getId());
                     detail.put("type", s.getType());

@@ -38,10 +38,29 @@ public class ProjectService {
     }
 
     public Map<String, Object> get(User user) {
-        Team team = findTeam(user);
+        Team team = members.findByUser(user).map(TeamMember::getTeam).orElse(null);
+        if (team == null) {
+            Map<String, Object> empty = new LinkedHashMap<>();
+            empty.put("exists", false);
+            empty.put("team", "");
+            empty.put("teamSize", 0);
+            empty.put("title", "");
+            empty.put("description", "");
+            empty.put("status", "NOT_STARTED");
+            empty.put("reviews", List.of());
+            return empty;
+        }
         Project project = projects.findByTeam(team).orElse(null);
         if (project == null) {
-            return Map.of("exists", false, "team", team.getName(), "teamSize", members.countByTeam(team));
+            Map<String, Object> empty = new LinkedHashMap<>();
+            empty.put("exists", false);
+            empty.put("team", team.getName());
+            empty.put("teamSize", members.countByTeam(team));
+            empty.put("title", "");
+            empty.put("description", "");
+            empty.put("status", "NOT_STARTED");
+            empty.put("reviews", List.of());
+            return empty;
         }
         return detail(project);
     }
@@ -160,7 +179,7 @@ public class ProjectService {
 
     private Map<String, Object> detail(Project project) {
         List<Map<String, Object>> reviewDetails = reviews.findByProjectOrderByReviewNoAsc(project).stream()
-                .map(s -> {
+                .<Map<String, Object>>map(s -> {
                     Map<String, Object> detail = new LinkedHashMap<>();
                     detail.put("reviewNo", s.getReviewNo());
                     detail.put("content", s.getContent());
