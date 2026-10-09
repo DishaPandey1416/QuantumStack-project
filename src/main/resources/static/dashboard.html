@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Nexus | Dashboard</title><link rel="stylesheet" href="style.css">
+<style>
+.dash{padding:50px 7%}.searchbox{margin-top:30px;padding:28px;border:1px solid #1d3b55;background:#0b1b2c;border-radius:18px}
+textarea{width:100%;min-height:120px;padding:15px;background:#07111f;color:white;border:1px solid #2a4862;border-radius:10px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:25px}.tile{padding:24px;background:#0b1b2c;border:1px solid #1d3b55;border-radius:15px}
+@media(max-width:800px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="nav"><div class="brand">AI <span>NEXUS</span></div><a href="#" id="logout">Logout</a></header>
+<main class="dash">
+<p class="tag">PERSONAL COMPUTING SPACE</p>
+<h1 id="welcome" style="font-size:48px">Welcome</h1>
+<p class="lead">Tell AI Nexus what you need. The recommendation engine will be our next module.</p>
+<div class="searchbox">
+<h2>🔍 Find a Computing Solution</h2>
+<textarea placeholder="Example: I need to process a very large dataset and solve an optimization problem quickly."></textarea>
+<br><br><button class="primary" onclick="alert('Recommendation Engine is the next module we will build.')">Analyze Requirement</button>
+</div>
+<div class="grid">
+<div class="tile">🤖<h3>AI Computing</h3><p>Data processing and intelligent solutions.</p></div>
+<div class="tile">⚛️<h3>Quantum Lab</h3><p>Quantum concepts and simulations.</p></div>
+<div class="tile">🌐<h3>Network Lab</h3><p>Latency, throughput and network simulation.</p></div>
+</div>
+</main>
+<script>
+const user = JSON.parse(localStorage.getItem('ainexusUser') || 'null');
+if(!user){ location.href='login.html'; }
+else { document.getElementById('welcome').textContent = 'Welcome, ' + user.name + ' 👋'; }
+document.getElementById('logout').onclick = () => { localStorage.removeItem('ainexusUser'); location.href='login.html'; };
+</script>
+</body>
+</html>

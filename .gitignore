@@ -1,0 +1,24 @@
+# Maven
+/target/
+
+# Runtime H2 database
+/data/
+*.mv.db
+*.trace.db
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local secrets
+a.env
+.env
+!.env.example

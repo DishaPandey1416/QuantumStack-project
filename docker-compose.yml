@@ -1,0 +1,34 @@
+services:
+  db:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ai_nexus
+      MYSQL_USER: ainexus
+      MYSQL_PASSWORD: ainexus_password
+      MYSQL_ROOT_PASSWORD: root_password_change_me
+    ports:
+      - "3306:3306"
+    volumes:
+      - ainexus-db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uainexus", "-painexus_password"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+  app:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:mysql://db:3306/ai_nexus?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USERNAME: ainexus
+      DB_PASSWORD: ainexus_password
+      DB_DRIVER: com.mysql.cj.jdbc.Driver
+      DEMO_DATA: "true"
+    ports:
+      - "8080:8080"
+volumes:
+  ainexus-db:

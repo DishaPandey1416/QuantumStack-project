@@ -1,0 +1,1 @@
+package com.ainexus.controller; import org.springframework.web.bind.annotation.*; import java.time.*; import java.util.*; @RestController public class HealthController {@GetMapping("/api/health") public Map<String,Object> health(){return Map.of("application","AI Nexus","status","running","version","1.0.0","time",Instant.now().toString());}}
