@@ -22,3 +22,7 @@ Thumbs.db
 a.env
 .env
 !.env.example
+
+# Local development artifacts
+/login.json
+/build-log.txt
